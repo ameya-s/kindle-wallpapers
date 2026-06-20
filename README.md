@@ -39,3 +39,17 @@ Turn on shuffle. Set whatever interval you like.
 **No Kindle connected?** The script falls back to the last synced clippings file, so it still works.
 
 Data lives in `~/.kindle-wallpapers/` — highlights database and a local copy of your clippings.
+
+---
+
+## how it works
+
+Kindles store every highlight you make in a plain text file called `My Clippings.txt` on the device. When you connect via USB, this file is accessible like any other file on a USB drive.
+
+The script copies that file locally, then parses it — each entry has the book title, author, and the highlighted text. Highlights under 6 words (single words, short phrases) are filtered out.
+
+Every highlight gets hashed and tracked in a local JSON file (`~/.kindle-wallpapers/highlights.json`). On subsequent runs, only highlights not already in that file get processed — so it's incremental and nothing gets regenerated unnecessarily.
+
+For each new highlight, it generates a PNG image at your display's native resolution using Pillow — quote centered in Georgia Italic, book title and author as attribution below a thin rule, ghost quotation mark in the background. Warm off-white background, near-black text.
+
+Those PNGs go into `~/Pictures/KindleWallpapers/`. macOS wallpaper rotation does the rest.
