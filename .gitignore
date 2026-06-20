@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# local data — clippings and highlight DB are personal, not committed
+My Clippings.txt
+highlights.json
+
+# macOS
+.DS_Store

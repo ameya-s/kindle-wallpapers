@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kindle-wallpapers"
+version = "0.1.0"
+description = "Turn your Kindle highlights into rotating desktop wallpapers"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = ["Pillow>=10.0"]
+
+[project.scripts]
+kindle-wallpapers = "kindle_wallpapers.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
