@@ -10,8 +10,10 @@ This turns every highlight into a desktop wallpaper. macOS rotates through them.
 
 ## install
 
+Not on PyPI yet — install directly from GitHub:
+
 ```bash
-pip install kindle-wallpapers
+pip install git+https://github.com/ameya-s/kindle-wallpapers.git
 ```
 
 ## setup

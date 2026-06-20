@@ -1,7 +1,24 @@
+import re
+import subprocess
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
-WIDTH, HEIGHT  = 3456, 2234
+
+def _detect_screen() -> tuple[int, int]:
+    try:
+        out = subprocess.check_output(
+            ["system_profiler", "SPDisplaysDataType"],
+            stderr=subprocess.DEVNULL, text=True
+        )
+        matches = re.findall(r"Resolution:\s*(\d+)\s*x\s*(\d+)", out)
+        if matches:
+            return max((int(w), int(h)) for w, h in matches)
+    except Exception:
+        pass
+    return 2560, 1600  # sensible fallback
+
+
+WIDTH, HEIGHT = _detect_screen()
 
 BG_COLOR       = "#FDFAF5"
 TEXT_COLOR     = "#1C1C1C"

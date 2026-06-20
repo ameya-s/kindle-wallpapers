@@ -1,0 +1,17 @@
+Lest I forget 
+
+I have been reading books on kindle over the years and highlighting interesting parts. but seldom could I revisit all those highlights.
+
+Knowledge from a book has a half life, each re-read slows the decay. 
+
+Highlighting important parts efficiently curates the essence of the material.
+
+but the interface to go back is just too many steps. so it never happens.
+
+Why not just show them as wallpaper. computer wallpaper is the easiest interface. highlights just show up through the day, no effort.
+
+then I built a small thing that pulls all highlights from kindle, makes a wallpaper per highlight, mac rotates through them.
+
+a lot of good stuff was just sitting there. now it isn't.
+
+github.com/ameya-s/kindle-wallpapers
