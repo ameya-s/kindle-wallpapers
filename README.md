@@ -16,7 +16,9 @@ pip install kindle-wallpapers
 
 ## run
 
-Plug in your Kindle, then:
+1. Connect your Kindle to your Mac via USB
+2. Wait for it to appear in Finder (shows up as "Kindle" under Locations)
+3. Run:
 
 ```bash
 kindle-wallpapers
