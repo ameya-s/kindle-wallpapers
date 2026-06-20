@@ -2,10 +2,12 @@ import re
 import sys
 import json
 import shutil
+import subprocess
 from pathlib import Path
 
 from .parser import parse_clippings
 from .renderer import make_wallpaper
+from .readwise import save_token, load_token, fetch_highlights
 
 KINDLE_VOLUME   = Path("/Volumes/Kindle")
 KINDLE_CLIPS    = KINDLE_VOLUME / "documents" / "My Clippings.txt"
@@ -38,12 +40,50 @@ def _save_db(db: dict) -> None:
     HIGHLIGHTS_DB.write_text(json.dumps(db, indent=2, ensure_ascii=False))
 
 
+def _ask_token_via_dialog() -> str | None:
+    script = '''
+    tell application "System Events"
+        display dialog "Paste your Readwise API token:" \
+            default answer "" with hidden answer \
+            buttons {"Cancel", "Save"} default button "Save"
+        return text returned of result
+    end tell
+    '''
+    result = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)
+    if result.returncode != 0:
+        return None
+    return result.stdout.strip()
+
+
+def _setup():
+    token = _ask_token_via_dialog()
+    if not token:
+        print("Cancelled.")
+        return
+    save_token(token)
+    print("✓ Token saved to macOS Keychain")
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "setup":
+        _setup()
+        return
+
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
+    # Kindle clippings
     _sync_clippings()
-
     all_highlights = parse_clippings(CLIPPINGS_LOCAL)
+
+    # Readwise (if token is set)
+    if load_token():
+        print("Fetching Readwise highlights ...")
+        rw = fetch_highlights()
+        all_highlights.update(rw)
+        print(f"  {len(rw)} highlights from Readwise")
+    else:
+        print("No Readwise token — run 'kindle-wallpapers setup' to add one")
+
     db = _load_db()
     new = {h: v for h, v in all_highlights.items() if h not in db}
 

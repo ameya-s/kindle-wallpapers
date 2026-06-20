@@ -11,3 +11,8 @@ highlights.json
 
 # macOS
 .DS_Store
+
+# never commit tokens
+rw_token
+*.token
+.env
